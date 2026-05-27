@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Desapego Profissional</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 480px;
+        }
+        h2 {
+            text-align: center;
+            color: #1a365d;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #4a5568;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            color: #334155;
+        }
+        input:focus, select:focus {
+            border-color: #3182ce;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+        }
+        button {
+            width: 100%;
+            background-color: #3182ce;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #2b6cb0;
+        }
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 5px solid #3182ce;
+            border-radius: 8px;
+            display: none;
+        }
+        .result h3 {
+            margin: 0 0 12px 0;
+            color: #2d3748;
+            font-size: 18px;
+        }
+        .result p {
+            margin: 6px 0;
+            color: #4a5568;
+            font-size: 15px;
+        }
+        .price-tag {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2b6cb0;
+            margin: 5px 0 15px 0 !important;
+        }
+        .split-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #cbd5e1;
+        }
+        .split-item {
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .supplier-pane {
+            background-color: #fffaf0;
+            border: 1px solid #feebc8;
+            color: #c05621;
+        }
+        .shop-pane {
+            background-color: #f0fff4;
+            border: 1px solid #c6f6d5;
+            color: #22543d;
+        }
+        .pane-val {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+        .info-tab {
+            font-size: 12px;
+            color: #718096;
+            background: #edf2f7;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 5px;
+            margin-right: 5px;
+        }
+        .defect-alert {
+            background-color: #fff5f5;
+            color: #c53030;
+            border: 1px solid #fed7d7;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Calculadora de Venda</h2>
+    
+    <div class="form-group">
+        <label for="peca">Peça:</label>
+        <input type="text" id="peca" placeholder="Ex: Vestido, Bolsa, Sapato">
+    </div>
+
+    <div class="form-group">
+        <label for="tipo">Tipo:</label>
+        <input type="text" id="tipo" placeholder="Ex: Festa, Casual, Esportivo">
+    </div>
+
+    <div class="form-group">
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" placeholder="Ex: Animale, Schutz, Zara">
+    </div>
+
+    <div class="form-group">
+        <label for="condicao">Condição da Peça:</label>
+        <select id="condicao">
+            <option value="nova">NOVA (c/ etiqueta)</option>
+            <option value="seminova">SEMINOVA (ótimo estado)</option>
+            <option value="usada">USADA (bom estado)</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="temDefeito">Possui Defeito? (Mancha, fio puxado, etc.):</label>
+        <select id="temDefeito">
+            <option value="nao">Não</option>
+            <option value="sim">Sim (Soma +1 no divisor)</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="precoOriginal">Preço Original (R$):</label>
+        <input type="number" id="precoOriginal" placeholder="Digite o valor pago original" min="0" step="0.01">
+    </div>
+
+    <div class="form-group">
+        <label for="porcentagemFornecedor">Porcentagem do Fornecedor (%):</label>
+        <input type="number" id="porcentagemFornecedor" placeholder="Ex: 40" min="0" max="100" value="40">
+    </div>
+
+    <button onclick="calcularPrecoVenda()">Calcular Divisão e Valores</button>
+
+    <div class="result" id="resultadoBox">
+        <h3>Sugestão de Venda Baseada na Tabela</h3>
+        <p id="resResumo"></p>
+        <p style="margin-bottom:0;">Preço de Venda Sugerido:</p>
+        <p class="price-tag" id="resPreco"></p>
+        
+        <div class="info-tab" id="resLogica"></div>
+        <div class="info-tab" id="resDefeito"></div>
+
+        <div class="split-box">
+            <div class="split-item supplier-pane">
+                <div>Pago ao Fornecedor (<span id="lblPorcentagemForn">0</span>%)</div>
+                <div class="pane-val" id="resFornecedor">R$ 0,00</div>
+            </div>
+            <div class="split-item shop-pane">
+                <div>Lucro da Loja (<span id="lblPorcentagemLoja">0</span>%)</div>
+                <div class="pane-val" id="resLoja">R$ 0,00</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function calcularPrecoVenda() {
+    const peca = document.getElementById('peca').value || "Peça";
+    const tipo = document.getElementById('tipo').value || "Geral";
+    const marca = document.getElementById('marca').value || "Não informada";
+    const condicao = document.getElementById('condicao').value;
+    const temDefeito = document.getElementById('temDefeito').value;
+    const precoOriginal = parseFloat(document.getElementById('precoOriginal').value);
+    
+    let porcFornecedor = parseFloat(document.getElementById('porcentagemFornecedor').value);
+    if (isNaN(porcFornecedor)) porcFornecedor = 0;
+
+    if (isNaN(precoOriginal) || precoOriginal <= 0) {
+        alert("Por favor, insira um preço original válido.");
+        return;
+    }
+
+    let divisorBase = 1;
+    let faixaTexto = "";
+    let condicaoTexto = "";
+
+    // 1. Identifica o Divisor Base pela Faixa de Preço e Condição
+    if (precoOriginal <= 500) {
+        faixaTexto = "Faixa 1 (Até R$ 500)";
+        if (condicao === 'nova') { divisorBase = 3; condicaoTexto = "Nova"; }
+        else if (condicao === 'seminova') { divisorBase = 5; condicaoTexto = "Seminova"; }
+        else { divisorBase = 6; condicaoTexto = "Usada"; }
+    } 
+    else if (precoOriginal > 500 && precoOriginal <= 1000) {
+        faixaTexto = "Faixa 2 (R$ 500 a R$ 1.000)";
+        if (condicao === 'nova') { divisorBase = 4; condicaoTexto = "Nova"; }
+        else if (condicao === 'seminova') { divisorBase = 5; condicaoTexto = "Seminova"; }
+        else { divisorBase = 6; condicaoTexto = "Usada"; }
+    } 
+    else if (precoOriginal > 1000 && precoOriginal <= 2000) {
+        faixaTexto = "Faixa 3 (R$ 1.000 a R$ 2.000)";
+        if (condicao === 'nova') { divisorBase = 5; condicaoTexto = "Nova"; }
+        else if (condicao === 'seminova') { divisorBase = 6; condicaoTexto = "Seminova"; }
+        else { divisorBase = 7; condicaoTexto = "Usada"; }
+    } 
+    else {
+        faixaTexto = "Faixa 4 (Acima de R$ 2.000)";
+        if (condicao === 'nova') { divisorBase = 6; condicaoTexto = "Nova"; }
+        else if (condicao === 'seminova') { divisorBase = 7; condicaoTexto = "Seminova"; }
+        else { divisorBase = 8; condicaoTexto = "Usada"; }
+    }
+
+    // 2. Aplica a penalidade de defeito se positivo (+1 no divisor)
+    let divisorFinal = divisorBase;
+    const divDefeitoBox = document.getElementById('resDefeito');
+    
+    if (temDefeito === 'sim') {
+        divisorFinal = divisorBase + 1;
+        divDefeitoBox.innerHTML = "Com Defeito: Divisor +1 aplicado";
+        divDefeitoBox.className = "info-tab defect-alert";
+        divDefeitoBox.style.display = "inline-block";
+    } else {
+        divDefeitoBox.style.display = "none";
+    }
+
+    // 3. Calcula os Preços de Venda e Comissões
+    const precoVenda = precoOriginal / divisorFinal;
+    const valorFornecedor = precoVenda * (porcFornecedor / 100);
+    const valorLoja = precoVenda - valorFornecedor;
+    const porcLoja = 100 - porcFornecedor;
+
+    // Formatação de Moeda
+    const formatarMoeda = (valor) => valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    // 4. Renderiza os resultados na tela
+    document.getElementById('resResumo').innerHTML = `<strong>${peca}</strong> (${tipo}) - <em>${marca}</em>`;
+    document.getElementById('resPreco').innerHTML = `${formatarMoeda(precoVenda)}`;
+    document.getElementById('resLogica').innerHTML = `Regra: ${faixaTexto} | ${condicaoTexto} (Divisor: ÷${divisorFinal})`;
+    
+    // Atualiza o painel de divisão (Fornecedor x Loja)
+    document.getElementById('lblPorcentagemForn').innerText = porcFornecedor;
+    document.getElementById('lblPorcentagemLoja').innerText = porcLoja;
+    document.getElementById('resFornecedor').innerText = formatarMoeda(valorFornecedor);
+    document.getElementById('resLoja').innerText = formatarMoeda(valorLoja);
+    
+    document.getElementById('resultadoBox').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
